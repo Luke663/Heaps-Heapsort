@@ -1,0 +1,46 @@
+.modal-parent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    display: none;
+}
+
+.modal {
+    background: white;
+    width: 70%;
+    padding: 30px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    font-family: arial;
+    position: relative;
+    animation: 1s dropdown;
+}
+
+.X {
+    position: absolute;
+    right: 20px;
+    top: 5px;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.modalTitle {
+    font-size: 35px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+@keyframes dropdown {
+    0%{
+        top: -100px;
+    }
+    100%{
+        top: 50%;
+    }
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset=utf-8>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Heaps and Heap sort</title>
+
+        <link rel="stylesheet" href="main_style.css">
+        <link rel="stylesheet" href="modal_style.css">
+    </head>
+    <body>
+        <canvas id="canvas1"></canvas>
+
+        <div id="controls">
+            <label class="UIheadings">Heap type:</label>
+            <div>
+                <label for="minRadio">Min: </label>
+                <input id="minRadio" type="radio" name="heapType" onclick="alterHeapType()" 
+                    title="Allows the creation of a min heap (if unchecked&#10;selecting will employ the heapify algorithm).">
+                &emsp; &emsp;
+                <label for="maxRadio">Max: </label>
+                <input id="maxRadio" type="radio" name="heapType" onclick="alterHeapType()" 
+                    title="Allows the creation of a max heap (if unchecked&#10;selecting will employ the heapify algorithm)." checked>
+            </div>
+
+            <label class="UIheadings">Add/Remove items:</label>
+            <div>
+                <button id="appendButton" class="jointBtn" 
+                    title="Appends a new value to the heap without running any balancing or&#10;reorganisation of values (will result in an invalid heap).">Append value</button>
+                <label class="miniLabel">Value:</label>
+                <input id="appendInput" type="text" class="jointTxt" value="- -" onclick="(this.value='')" onblur="(this.value = this.value == '' ? '- -' : this.value)" 
+                    title="The value to append. If blank or invalid a random number will be&#10;appended to the heap (comma separated values can be appended together).">
+            </div>
+            <div>
+                <button id="pushButton" class="jointBtn" title="Appends a new value to the heap, balancing&#10;the heap to ensure it remains a valid heap.">Push value</button>
+                <label class="miniLabel">Value:</label>
+                <input id="pushInput" type="text" class="jointTxt" value="- -" onclick="(this.value='')" onblur="(this.value = this.value == '' ? '- -' : this.value)" 
+                    title="The value to push. If blank or invalid a random number will be&#10;pushed into the heap (comma separated values can be pushed together).">
+            </div>
+            <div>
+                <button id="popButton" 
+                    title="Pops, or removes, the minimum (min heap) or maximum (max heap) value&#10;from the top of the heap. Rebalancing the heap after.">Pop value</button>
+            </div>
+            <div>
+                <button id="clearButton" title="Clears all values from the heap.">Clear Heap</button>
+            </div>
+
+            <label class="UIheadings">Functionality:</label>
+            <div>
+                <button id="heapBuildButton" title="Runs the heap build function, rearranging the heap's&#10;values ensuring the heap is valid.">Heap Build</button>
+            </div>
+            <div>
+                <button id="heapsortButton" 
+                    title="Runs heap sort on the heap's values. By repeatedly popping the&#10;top value and placing it at the end of the heap to sort the values in&#10;ascending (max heap) or decending (min heap) order.">Run Heap Sort</button>
+            </div>
+
+            <label class="UIheadings">Themes:</label>
+            <div>
+                <label for="backgroundcolour">Background:</label>
+                <select name="backgroundColour" id="backgroundcolour" class="drop_down" title="Changes the colour of the background.">
+                    <option value="lightskyblue">Light sky blue</option>
+                    <option value="lightblue">Light blue</option>
+                    <option value="palegreen">Pale green</option>
+                    <option value="lightpink">Light pink</option>
+                    <option value="black">Black</option>
+                    <option value="mediumseagreen">Medium sea green</option>
+                    <option value="limegreen">Lime green</option>
+                    <option value="firebrick">Firebrick</option>
+                    <option value="plum">Plum</option>
+                    <option value="lightcoral">Light coral</option>
+                    <option value="olivedrab">Olive drab</option>
+                </select>
+            </div>
+            <div>
+                <label for="foregroundcolour">Foreground:</label>
+                <select name="foregroundColour" id="foregroundcolour" class="drop_down" title="Changes the colour of the lines and text.">
+                    <option value="white">White</option>
+                    <option value="black">Black</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="indigo">Indigo</option>
+                    <option value="darkred">Dark red</option>
+                </select>
+            </div>
+
+            <label class="UIheadings">Animation:</label>
+            <div>
+                <label for="animationSwitch">On/Off:</label>
+                &emsp;
+                <input id="animationSwitch" type="checkbox" title="Turns the animation on/off&#10;(Can be altered while running)." checked>
+            </div>
+            <div>
+                <label for="animationSpeed">Speed:</label>
+                &ensp;
+                <input id="animationSpeed" type="range" min="2" max="8" step="1" value="7" title="Increases/decreases the animation speed&#10;(Can be altered while running).">
+            </div>
+        </div>
+
+        <div id="modalParent" class="modal-parent">
+            <div class="modal">
+                <section>
+                    <h2 class="modalTitle">
+                        Heaps and Heap sort
+                    </h2>
+
+                    <p>
+                        &emsp;Heaps are data structures used to organise, or partially sort, data allowing for reduced time or work to complete tasks 
+                        that require numerical ordering such as sorting or the sequential access of data. Though there 
+                        are other types, such as Fibonacci heaps, only binary heaps are demonstrated in this example. Logically depicted as a binary tree 
+                        (as can be seen in the middle of the screen where each value (or node) can have between 0 and 2 children) but typically 
+                        implemented as an array (depicted at the bottom of the page) which allows access to elements in constant time (meaning work 
+                        is not increased as the number of values in the array grow). Binary heaps are always either perfect trees, where all parent 
+                        nodes have 2 children and all rows are filled, or complete trees, where all rows are filled with the exception of the last row 
+                        of nodes (leaves) which is filled from the left.
+                    </p><br>
+                    <p>
+                        &emsp;There are two types of heap: min heaps and max heaps. Max heaps follow the rule that all nodes are less in value than their 
+                        parents while in min heaps all nodes are greater than their parents. This follows that in a max heap the first value or root node 
+                        is the largest and the smallest in a min heap. As an array or list is used to store the heap's data rather than linked node objects, 
+                        child elements of a particular value are found by taking the parent value's array index and applying the following formulas: 
+                        child one = index * 2 (or index * 2 + 1 for zero based indexing) and child two = index * 2 + 1 (or index * 2 + 2 for zero based 
+                        indexing). These index values can be seen underneath the depiction of the array at the bottom of the page. Heaps are used to implement
+                        priority queues, where data is accessed sequentially, or for heap sort. They are useful because the root object/value can be accessed in
+                        constant time (O(1)) while the insertion and rebalancing of the heap can be done in logarithmic time (O(log N)).
+                    </p><br>
+
+                    <h2 class="modalTitle">
+                        Functionality
+                    </h2>
+                    <div>
+                        <ul>
+                            <li><b>Min/max heap selector - </b>This changes the way data is organised (smallest value at the top for a min heap and largest for a max heap). If
+                            animation is turned on while the heap type is altered the heap building process will be animated as the heap is reorganised.</li>
+
+                          <li><b>Append value - </b>This adds a value to the heap/array without reorganising the values to keep it as a valid heap, 
+                            allowing for the heap building operation to be animated. Using the adjacent text box, a user specified value, or set of 
+                            values (comma separated), can be added.</li>
+
+                          <li><b>Push value - </b>This adds a value to the heap/array then reorganises the values so it remains a valid heap, 
+                            with animation turned on this will be animated for the user. Using the adjacent text box, a user specified value, or set of 
+                            values (comma separated), can be added.</li>
+
+                          <li><b>Pop value - </b>This removes the top (largest for max heap, smallest for min heap) value from the heap. The last element of the heap is 
+                            promoted in its place then the values are then reorganised so it remains a valid heap, with animation turned on this will be animated for the user.</li>
+
+                          <li><b>Clear heap - </b>This clears the heap/array of all values, allowing new or desired values to be added to the heap.</li>
+
+                          <li><b>Heap build - </b>Loops through each parent node starting with the last ensuring each sub tree is a valid heap until it gets to the top and
+                            all the heap is made valid. The heap build function runs in linear time (O(N)). This will be animated if animation is turned on.</li>
+
+                          <li><b>Run Heap sort - </b>This uses pop() to repeatedly remove the top element from the heap then appends the value to the end of the array resulting 
+                            in a sorted list of values with linearithmic or loglinear (O(N log N)) time complextity. A min heap will result in values sorted in decending order 
+                            whereas a max heap will result in values sorted in ascending order. (The validity of the heap will be checked without animation prior to sorting so 
+                            running the heap build function is recommended if it is desired to see that part).</li>
+
+                          <li><b>Background colour list - </b>Allows the alteration of the background colour.</li>
+
+                          <li><b>Foreground colour list - </b>Allows the alteration of the text and line colour.</li>
+
+                          <li><b>Animation switch - </b>Turns animations on or off (can be altered during execution to speed up tasks that do not need to be seen).</li>
+
+                          <li><b>Animation speed slider - </b>Alters the animation speed (can be altered during execution to speed up or slow down the animations).</li>
+                        </ul>
+                    </div>
+                </section>
+                <span id="modalClose" class="X" draggable="true" onclick="helpTextAppear(false)">&times;</span>
+            </div>
+        </div>
+
+        <div id="help">
+            <label id="helpTxt" draggable="true" onclick="helpTextAppear(true)">?</label>
+        </div>
+
+        <script src="utils.js"></script>
+        <script src="animation.js"></script>
+        <script src="heap.js"></script>
+        <script src="visualiser.js"></script>
+        <script src="main.js"></script>
+    </body>
+</html>
