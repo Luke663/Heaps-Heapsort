@@ -22,7 +22,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let foregroundColour = "white";
-let backgroundColour = "lightskyblue";
+let backgroundColour = "olivedrab";
 const animationHighlightColour = "red";
 
 

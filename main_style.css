@@ -1,7 +1,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
 }
 
 div {
@@ -26,8 +26,8 @@ input {
 }
 
 #canvas1 {
-    background: lightskyblue;
-    position: absolute;
+    background: olivedrab;
+    position: fixed;
     top: 0px;
     left: 0px;
 }
@@ -45,7 +45,7 @@ input {
 }
 
 #help {
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
     background: rgba(255, 255, 255, 0.3);
@@ -54,8 +54,8 @@ input {
     border-radius: 15px;
     text-align: center;
     width: 60px;
-    height: 70px;
-    line-height: 390%;
+    height: 55px;
+    line-height: 65px;
 }
 #help:hover { background: white; }
 

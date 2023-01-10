@@ -1,5 +1,5 @@
 .modal-parent {
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     height: 100vh;
@@ -12,10 +12,9 @@
     width: 70%;
     padding: 30px;
     border-radius: 10px;
-    position: absolute;
-    top: 50%;
+    top: 50px;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 0%);
     font-size: 18px;
     font-family: arial;
     position: relative;
@@ -38,9 +37,9 @@
 
 @keyframes dropdown {
     0%{
-        top: -100px;
+        top: -200%;
     }
     100%{
-        top: 50%;
+        top: 50px;
     }
 }
