@@ -26,13 +26,12 @@ async function heapSort(heap, positions, context, canvas, _isMinHeap)
 }
 
 /**
- *
- *
- * @param {*} heap
- * @param {*} values
- * @param {*} context
- * @param {*} canvas
- * @param {boolean} [isMinHeap=false]
+ * Appends a new value to the heap then rebalances the heap to keep it valid.
+ * @param {*} heap (int[]): The heap/array.
+ * @param {*} values (int or int[]): Value(s) that will be added to the heap.
+ * @param {*} context (object): 2d canvas context.
+ * @param {*} canvas (object): Webpage canvas element.
+ * @param {boolean} [isMinHeap=false] (boolean): If the heap is a min heap or not.
  */
 async function heapPush(heap, values, context, canvas, isMinHeap=false)
 {
@@ -85,15 +84,15 @@ async function heapPush(heap, values, context, canvas, isMinHeap=false)
 }
 
 /**
- *
- *
- * @param {*} heap
- * @param {*} endOfHeap
- * @param {*} context
- * @param {*} canvas
- * @param {boolean} [isMinHeap=false]
- * @param {boolean} [runningHeapSort=false]
- * @return {*} 
+ * Removes the first value, largest (max heap) or smallest (min heap), then promotes the last value in its place before
+ * rebalancing the heap.
+ * @param {*} heap (int[]): The heap/array.
+ * @param {*} endOfHeap (int): Last index that will be considered while rebalancing the heap (so popped values can be put at the end during heap sort).
+ * @param {*} context (object): 2d canvas context.
+ * @param {*} canvas (object): Webpage canvas element.
+ * @param {boolean} [isMinHeap=false] (boolean): If the heap is a min heap or not.
+ * @param {boolean} [runningHeapSort=false] (boolean): If the webpage is using heapsort of popping a single value.
+ * @return {*} (int): The value, largest (max heap) or smallest (min heap), popped from the heap.
  */
 async function heapPop(heap, endOfHeap, context, canvas, isMinHeap=false, runningHeapSort=false)
 {
@@ -235,12 +234,12 @@ async function heapPop(heap, endOfHeap, context, canvas, isMinHeap=false, runnin
 }
 
 /**
- *
- *
- * @param {*} heap
- * @param {*} context
- * @param {*} canvas
- * @param {boolean} [isMinHeap=false]
+ * Loops through each parent node starting with the last, rebalancing each with its children (sub-trees)
+ * until the whole heap is valid.
+ * @param {*} heap (int[]): The heap/array.
+ * @param {*} context (object): 2d canvas context.
+ * @param {*} canvas (object): Webpage canvas element.
+ * @param {boolean} [isMinHeap=false] (boolean): If the heap is a min heap or not.
  */
 async function heapBuild(heap, context, canvas, isMinHeap=false)
 {

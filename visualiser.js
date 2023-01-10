@@ -1,3 +1,12 @@
+/**
+ * Draws a line between the two given points in the given colour.
+ * @param {*} fromX (int): Start x coordinate of line.
+ * @param {*} fromY (int): Start y coordinate of line.
+ * @param {*} toX (int): End x coordinate of line.
+ * @param {*} toY (int): End y coordinate of line.
+ * @param {*} lineColour (string): Colour line will be.
+ * @param {*} context (object): The 2d context element.
+ */
 function drawLine(fromX, fromY, toX, toY, lineColour, context)
 {
     context.strokeStyle = lineColour;
@@ -9,6 +18,13 @@ function drawLine(fromX, fromY, toX, toY, lineColour, context)
     context.closePath();
 }
 
+/**
+ * Loops through each heap element drawing a line from a node to its children.
+ * @param {*} heap (int[]): The heap/array.
+ * @param {*} positions (list of int[]): Coordinates [x,y] for each node position on screen.
+ * @param {*} context (object): The 2d context element.
+ * @param {*} [investigating=[]] (int[]): Indexes of values/nodes currently being looked at.
+ */
 function drawLines(heap, positions, context, investigating=[])
 {
     context.lineWidth = 5;
@@ -28,6 +44,13 @@ function drawLines(heap, positions, context, investigating=[])
     }
 }
 
+/**
+ * Draws the circular outline of a heap node.
+ * @param {*} x (int): The x coordinate of the node.
+ * @param {*} y (int): The y coordinate of the node.
+ * @param {*} nodeColour (string): The colour a node will be drawn in.
+ * @param {*} context (object): The 2d context element.
+ */
 function drawNode(x, y, nodeColour, context)
 {
     context.lineWidth = 5;
@@ -40,6 +63,14 @@ function drawNode(x, y, nodeColour, context)
     context.stroke();
 }
 
+/**
+ * Draws the numerical value of a heap node.
+ * @param {*} textValue (string): The numerical value of the current node being drawn.
+ * @param {*} x (int): The x coordinate of the value.
+ * @param {*} y (int): The y coordinate of the value.
+ * @param {*} context (object): The 2d context element.
+ * @return {*} (null): Early return leaving currently animating values blank.
+ */
 function drawText(textValue, x, y, context)
 {
     if (textValue === null)
@@ -59,6 +90,13 @@ function drawText(textValue, x, y, context)
     context.closePath();
 }
 
+/**
+ * Loops through the heap/array to draw the circular outlines and values of the heap (nodes).
+ * @param {*} heap (int[]): The heap/array.
+ * @param {*} positions (list of int[]): Coordinates [x,y] for each node position on screen.
+ * @param {*} context (object): The 2d context element.
+ * @param {*} [investigating=[]] (int[]): Indexes of values/nodes currently being looked at.
+ */
 function drawNodes(heap, positions, context, investigating=[])
 {
     for (let i = 0; i < heap.length; i++)
@@ -68,6 +106,14 @@ function drawNodes(heap, positions, context, investigating=[])
     }
 }
 
+/**
+ * Draws the binary tree visualisation of the heap.
+ * @param {*} heap (int[]): The heap/array.
+ * @param {*} positions (list of int[]): Coordinates [x,y] for each node position on screen.
+ * @param {*} context (object): The 2d context element.
+ * @param {*} canvas (object): The canvas element of the page.
+ * @param {*} [investigating=[]] (int[]): Indexes of values/nodes currently being looked at.
+ */
 function drawHeap(heap, positions, context, canvas, investigating=[])
 {
     drawLines(heap, positions, context, investigating);
@@ -75,6 +121,12 @@ function drawHeap(heap, positions, context, canvas, investigating=[])
     drawArray(heap, context, canvas);
 }
 
+/**
+ * Draws the "Array visualisation:" label at the top of the array visualisation.
+ * @param {*} context (object): The 2d context element.
+ * @param {*} x (int): x coordinate of the label.
+ * @param {*} y (int): y coordinate of the label.
+ */
 function drawArrayLabel(context, x, y)
 {
     context.lineWidth = 0.7;
@@ -82,10 +134,16 @@ function drawArrayLabel(context, x, y)
     context.textAlign = "left";
 
     context.beginPath();
-    context.fillText("heap visualisation:", x+5, y-15);
+    context.fillText("Array visualisation:", x+5, y-15);
     context.closePath();
 }
 
+/**
+ * Draws the visualisation of the array at the bottom of the page.
+ * @param {*} heap (int[]): The heap/array.
+ * @param {*} context (object): The 2d context element.
+ * @param {*} canvas (object): The canvas element of the page.
+ */
 function drawArray(heap, context, canvas)
 {
     const rectWidth = Math.min(80, parseInt((canvas.width - 100) / heap.length));
@@ -127,6 +185,14 @@ function drawArray(heap, context, canvas)
     }
 }
 
+/**
+ * Clears canvas and redraws heap.
+ * @param {*} heap (int[]): The heap/array.
+ * @param {*} positions (list of int[]): Coordinates [x,y] for each node position on screen.
+ * @param {*} context (object): The 2d context element.
+ * @param {*} canvas (object): The canvas element of the page.
+ * @param {*} [investigating=[]] (int[]): Indexes of values/nodes currently being looked at.
+ */
 function redrawCanvas(heap, positions, context, canvas, investigating=[])
 {
     context.clearRect(0, 0, canvas.width, canvas.height);

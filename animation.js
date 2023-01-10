@@ -28,7 +28,9 @@ function prepareAnimation(heap, animatedElementsIndexes, positions)
 }
 
 /**
- * 
+ * Animates elements being moved by using the timestamp and given duration to place the element
+ * at the correct position via its progrees (%) over time. (cuts off at 96% to smooth animation 
+ * and ensure the animation is done by the time the main thread is finished waiting).
  * @param {*} timestamp (number/time): Inbuilt requestAnimationFrame variable.
  * @param {*} starttime (number/time): Time the animation started.
  * @param {*} animationPreparation ([ int[], object[] ]): Information needed to perform the animations ([heap with animated values set to null, list of objects containing values (number), position (x,y), and destination (x,y)]).

@@ -30,24 +30,31 @@ let animationSpeed = 1250;//ms range(5000 ... 500)
 let animateOperations = false;
 let isMinHeap = false;
 
-const initialNodeCount = 15;
+const initialNodeCount = 15;// Number of nodes added to screen on start
 let heap = [];
 
+// Redraw the canvas after a resizing.
 window.addEventListener('resize', function(){
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
     redrawCanvas(heap, getNodePositions(heap.length, canvas), ctx, canvas);
 });
+
+// Pop the top value from the heap and rebalance.
 popButton.addEventListener('click', async function()
 {
     heapPop(heap, (heap.length - 1), ctx, canvas, isMinHeap, false);
 });
+
+// Remove all values from the heap.
 clearButton.addEventListener('click', function()
 {
     heap = [];
     redrawCanvas(heap, getNodePositions(heap.length, canvas), ctx, canvas);
 });
+
+// Append 1 or more values to the heap and rebalance.
 pushButton.addEventListener('click', function()
 {
     if (!parseInt(pushTxtValue.value))
@@ -60,6 +67,8 @@ pushButton.addEventListener('click', function()
         heapPush(heap, pushedVals, ctx, canvas, isMinHeap);
     }
 });
+
+// Append 1 or more values to the array.
 appendButton.addEventListener('click', function()
 {
     if (!parseInt(appendTxtValue.value))
@@ -77,42 +86,59 @@ appendButton.addEventListener('click', function()
 
     redrawCanvas(heap, getNodePositions(heap.length, canvas), ctx, canvas);
 });
+
+// Run heap build.
 heapBuildButton.addEventListener('click', function()
 {
     heapBuild(heap, ctx, canvas, isMinHeap);
 });
+
+// Run heap sort.
 heapsortButton.addEventListener('click', function(){
     heapSort(heap, getNodePositions(heap.length, canvas), ctx, canvas, isMinHeap);
-})
+});
+
+// Change canvas background colour.
 backgroundColourSelect.addEventListener('change', function()
 {
     backgroundColour = backgroundColourSelect.value;
     canvas.style.background = backgroundColour;
     redrawCanvas(heap, getNodePositions(heap.length, canvas), ctx, canvas);
 });
+
+// Change text/line colour.
 foregroundColourSelect.addEventListener('change', function()
 {
     foregroundColour = foregroundColourSelect.value;
     redrawCanvas(heap, getNodePositions(heap.length, canvas), ctx, canvas);
 });
+
+// Alter animation state to on/off.
 animationSwitch.addEventListener('change', function(){
     animateOperations = animationSwitch.checked;
 });
+
+// Set animation speed.
 animationSpeedControl.addEventListener('change', function(){
     animationSpeed = 5000 - ((animationSpeedControl.value - 2) * 750); //(750 = 5000-500 / 6)
 });
+
+// Changes the heap type boolean and reorganises the heap.
 function alterHeapType()
 {
     isMinHeap = minRadio.checked ? true : false;
     heapBuild(heap, ctx, canvas, isMinHeap);
 }
 
+// Allows the modal to be removed by clicking off to the side.
 modalParent.addEventListener('click', (e)=> {
     if (e.target.className == "modal-parent")
     {
         helpTextAppear(false);
     }
 });
+
+// Brings modal help text in or out of focus, also enabling/disabling blur and transition.
 function helpTextAppear(appear)
 {
     if (appear)
@@ -137,6 +163,7 @@ function helpTextAppear(appear)
     }
 }
 
+// Disables UI elements not needed when animating.
 function disableUI(disable)
 {
     popButton.disabled = disable;
@@ -154,6 +181,12 @@ function disableUI(disable)
     controlsPanel.disabled = disable;
 }
 
+
+/**
+ * Sets the animations on/off depending on the given value. No value 
+ * returns the 'animateOperations' variable back to the on screen selection.
+ * @param {*} value (boolean): Set animations to on (true) or off (false).
+ */
 function setAnimateOperations(value)
 {
     if (value === undefined)
@@ -162,24 +195,31 @@ function setAnimateOperations(value)
         animateOperations = value;
 }
 
+// Returns if user has animations on/off.
 function getIfAnimating()
 {
     return animateOperations;
 }
 
+// Returns the currently selected animation speed.
 function getAnimationSpeed()
 {
     return animationSpeed;
 }
 
+// Returns colour used for the canvas background.
 function getBackgroundColour()
 {
     return backgroundColour;
 }
+
+// Returns colour used for drawing lines and text on screen.
 function getForegroundColour()
 {
     return foregroundColour;
 }
+
+// Returns colour used to show which nodes are being looked at.
 function getAnimationHighlightColour()
 {
     return animationHighlightColour;
