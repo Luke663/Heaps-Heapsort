@@ -160,13 +160,9 @@ async function heapPop(heap, endOfHeap, context, canvas, isMinHeap=false, runnin
             if (childTwo < endOfHeap)
             {
                 if (heap[childTwo] < heap[childOne])
-                {
                     current = await swapElements(heap, current, childTwo, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
-                }
                 else
-                {
                     current = await swapElements(heap, current, childOne, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
-                }
             }
             else
             {
@@ -197,13 +193,9 @@ async function heapPop(heap, endOfHeap, context, canvas, isMinHeap=false, runnin
             if (childTwo < endOfHeap)
             {
                 if (heap[childTwo] > heap[childOne])
-                {
                     current = await swapElements(heap, current, childTwo, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
-                }
                 else
-                {
                     current = await swapElements(heap, current, childOne, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
-                }
             }
             else
             {
@@ -267,12 +259,12 @@ async function heapBuild(heap, context, canvas, isMinHeap=false)
             await sleep(getAnimationSpeed());
         }
 
-        if (heap[childTwo])
+        if (heap[childTwo])// Has two children
         {
             // No action taken
-            if (!isMinHeap && heap[current] >= Math.min(heap[childOne], heap[childTwo]))
+            if (!isMinHeap && heap[current] >= Math.max(heap[childOne], heap[childTwo]))
                 continue;
-            if (isMinHeap && heap[current] <= Math.max(heap[childOne], heap[childTwo]))
+            if (isMinHeap && heap[current] <= Math.min(heap[childOne], heap[childTwo]))
                 continue;
             
             if ((!isMinHeap && heap[childOne] > heap[childTwo]) || (isMinHeap && heap[childOne] < heap[childTwo]))
@@ -280,7 +272,7 @@ async function heapBuild(heap, context, canvas, isMinHeap=false)
             else
                 stack.push(await swapElements(heap, current, childTwo, positions, getIfAnimating(), getAnimationSpeed(), context, canvas));
         }
-        else
+        else// Has one child
         {
             if ((!isMinHeap && heap[current] < heap[childOne]) || (isMinHeap && heap[current] > heap[childOne]))
                 stack.push(await swapElements(heap, current, childOne, positions, getIfAnimating(), getAnimationSpeed(), context, canvas));
