@@ -102,67 +102,40 @@ async function heapPop(heap, endOfHeap, context, canvas, isMinHeap=false, runnin
     const retValue = heap[0];
     let positions = getNodePositions(heap.length, canvas);
 
-    if (endOfHeap === 0)
-    {
-        if (!runningHeapSort)
-            heap.pop();
-        else
-            heap[endOfHeap] = null;
-
-        if (getIfAnimating())
-            disableUI(false);
-
-        redrawCanvas(heap, positions, context, canvas);
-
-        return retValue;
-    }
-
-    // Animate promotion
-    if (getIfAnimating())
-    {
-        const animationPreparation = prepareAnimation(heap, [[0, endOfHeap], [endOfHeap, 0]], getNodePositions(heap.length, canvas));
-        animate(0, 0, animationPreparation, getAnimationSpeed(), getNodePositions(heap.length, canvas), context, canvas);
-        await sleep(getAnimationSpeed());
-    }
-
-    heap[0] = heap[endOfHeap];
+    if (getIfAnimating() && endOfHeap != 0)// Animate pop and promotion
+        await swapElements(heap, 0, endOfHeap, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
+    else
+        heap[0] = heap[endOfHeap];
 
     if (!runningHeapSort)
         heap.pop();
     else
-        heap[endOfHeap] = null;
+        heap[endOfHeap] = null;// Later used to hold popped value
 
     let current = 0;
     let childOne = (current * 2) + 1;
     let childTwo = (current * 2) + 2;
 
-    if (!runningHeapSort) positions = getNodePositions(heap.length, canvas);
+    if (!runningHeapSort) // Reassess positions to account for lost value
+        positions = getNodePositions(heap.length, canvas);
 
-    if (getIfAnimating())
+    if (getIfAnimating() && endOfHeap != 0)
     {
-        const investigating = [current];
-        if (childOne < endOfHeap)
-            investigating.push(childOne);
-        if (childTwo < endOfHeap)
-            investigating.push(childTwo);
+        const investigating = getIndexesOfNodesUnderInvestigation(current, childOne, childTwo, endOfHeap);
 
-        // Set colours
+        // Draw canvas showing which elements are being investigated
         redrawCanvas(heap, positions, context, canvas, investigating);
-        // Wait
         await sleep(getAnimationSpeed());
     }
 
-    if (isMinHeap)
+    if (isMinHeap)// Min heap
     {
-        while ((childTwo < endOfHeap && (heap[current] > heap[childOne] || heap[current] > heap[childTwo]))
-            || (childOne < endOfHeap && heap[current] > heap[childOne])) // for min heap
+        while (childTwo < endOfHeap && heap[current] > Math.min(heap[childOne], heap[childTwo]) || (childOne < endOfHeap && heap[current] > heap[childOne]))
         {
             if (childTwo < endOfHeap)
             {
-                if (heap[childTwo] < heap[childOne])
-                    current = await swapElements(heap, current, childTwo, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
-                else
-                    current = await swapElements(heap, current, childOne, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
+                const swapIndex = heap[childTwo] < heap[childOne] ? childTwo : childOne;
+                current = await swapElements(heap, current, swapIndex, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
             }
             else
             {
@@ -174,28 +147,23 @@ async function heapPop(heap, endOfHeap, context, canvas, isMinHeap=false, runnin
 
             if (getIfAnimating() && childOne < endOfHeap)
             {
-                const investigating = [current, childOne];
-                if (childTwo < endOfHeap)
-                    investigating.push(childTwo);
+                const investigating = getIndexesOfNodesUnderInvestigation(current, childOne, childTwo, endOfHeap);
 
-                // Set colours
+                // Draw canvas showing which elements are being investigated
                 redrawCanvas(heap, positions, context, canvas, investigating);
-                // Wait
                 await sleep(getAnimationSpeed());
             }
         }
     }
-    else
+
+    if (!isMinHeap)// Max heap
     {
-        while ((childTwo < endOfHeap && (heap[current] < heap[childOne] || heap[current] < heap[childTwo]))
-            || (childOne < endOfHeap && heap[current] < heap[childOne])) // for max heap
+        while (childTwo < endOfHeap && heap[current] < Math.max(heap[childOne], heap[childTwo]) || (childOne < endOfHeap && heap[current] < heap[childOne]))
         {
             if (childTwo < endOfHeap)
             {
-                if (heap[childTwo] > heap[childOne])
-                    current = await swapElements(heap, current, childTwo, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
-                else
-                    current = await swapElements(heap, current, childOne, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
+                const swapIndex = heap[childTwo] > heap[childOne] ? childTwo : childOne;
+                current = await swapElements(heap, current, swapIndex, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
             }
             else
             {
@@ -207,13 +175,10 @@ async function heapPop(heap, endOfHeap, context, canvas, isMinHeap=false, runnin
 
             if (getIfAnimating() && childOne < endOfHeap)
             {
-                const investigating = [current, childOne];
-                if (childTwo < endOfHeap)
-                    investigating.push(childTwo);
+                const investigating = getIndexesOfNodesUnderInvestigation(current, childOne, childTwo, endOfHeap);
 
-                // Set colours
+                // Draw canvas showing which elements are being investigated
                 redrawCanvas(heap, positions, context, canvas, investigating);
-                // Wait
                 await sleep(getAnimationSpeed());
             }
         }
@@ -223,6 +188,28 @@ async function heapPop(heap, endOfHeap, context, canvas, isMinHeap=false, runnin
     disableUI(false);
 
     return retValue;
+}
+
+
+/**
+ * Prepares an array of indexes that is used to mark/highlight a comparison.
+ * Only ading indexes within range of the heap.
+ * @param {*} current (int): Index of the current (parent) node being investigated.
+ * @param {*} childOne (int): Index of the current node's left child.
+ * @param {*} childTwo (int): Index of the current node's right child.
+ * @param {*} endOfHeap (int): The last value in the heap available for inspection.
+ * @return {*} (int[]): List of valid indexes that are being investigated.
+ */
+function getIndexesOfNodesUnderInvestigation(current, childOne, childTwo, endOfHeap)
+{
+    const investigating = [current];
+
+    if (childOne < endOfHeap)
+        investigating.push(childOne);
+    if (childTwo < endOfHeap)
+        investigating.push(childTwo);
+
+    return investigating;
 }
 
 /**
