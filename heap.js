@@ -132,15 +132,14 @@ async function heapPop(heap, endOfHeap, context, canvas, isMinHeap=false, runnin
     {
         while (childTwo < endOfHeap && heap[current] > Math.min(heap[childOne], heap[childTwo]) || (childOne < endOfHeap && heap[current] > heap[childOne]))
         {
-            if (childTwo < endOfHeap)
-            {
-                const swapIndex = heap[childTwo] < heap[childOne] ? childTwo : childOne;
-                current = await swapElements(heap, current, swapIndex, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
-            }
-            else
-            {
-                current = await swapElements(heap, current, childOne, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
-            }
+            let swapIndex = null;
+
+            if (childTwo < endOfHeap)// Two children
+                swapIndex = heap[childTwo] < heap[childOne] ? childTwo : childOne;
+            else// One child
+                swapIndex = childOne;
+
+            current = await swapElements(heap, current, swapIndex, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
 
             childOne = (current * 2) + 1;
             childTwo = (current * 2) + 2;
@@ -160,15 +159,14 @@ async function heapPop(heap, endOfHeap, context, canvas, isMinHeap=false, runnin
     {
         while (childTwo < endOfHeap && heap[current] < Math.max(heap[childOne], heap[childTwo]) || (childOne < endOfHeap && heap[current] < heap[childOne]))
         {
-            if (childTwo < endOfHeap)
-            {
-                const swapIndex = heap[childTwo] > heap[childOne] ? childTwo : childOne;
-                current = await swapElements(heap, current, swapIndex, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
-            }
-            else
-            {
-                current = await swapElements(heap, current, childOne, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
-            }
+            let swapIndex = null;
+
+            if (childTwo < endOfHeap)// Two children
+                swapIndex = heap[childTwo] > heap[childOne] ? childTwo : childOne;
+            else// One child
+                swapIndex = childOne;
+
+            current = await swapElements(heap, current, swapIndex, positions, getIfAnimating(), getAnimationSpeed(), context, canvas);
 
             childOne = (current * 2) + 1;
             childTwo = (current * 2) + 2;
