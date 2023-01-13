@@ -17,11 +17,11 @@
             <div>
                 <label for="minRadio">Min: </label>
                 <input id="minRadio" type="radio" name="heapType" onclick="alterHeapType()" 
-                    title="Allows the creation of a min heap (if unchecked&#10;selecting will employ the heapify algorithm).">
+                    title="Allows the creation of a min heap (if unchecked&#10;selecting will employ the heap build algorithm).">
                 &emsp; &emsp;
                 <label for="maxRadio">Max: </label>
                 <input id="maxRadio" type="radio" name="heapType" onclick="alterHeapType()" 
-                    title="Allows the creation of a max heap (if unchecked&#10;selecting will employ the heapify algorithm)." checked>
+                    title="Allows the creation of a max heap (if unchecked&#10;selecting will employ the heap build algorithm)." checked>
             </div>
 
             <label class="UIheadings">Add/Remove items:</label>
@@ -52,7 +52,7 @@
             </div>
             <div>
                 <button id="heapsortButton" 
-                    title="Runs heap sort on the heap's values. By repeatedly popping the&#10;top value and placing it at the end of the heap to sort the values in&#10;ascending (max heap) or decending (min heap) order.">Run Heap Sort</button>
+                    title="Runs heap sort on the heap's values, by repeatedly popping the&#10;top value and placing it at the end of the heap to sort the values in&#10;ascending (max heap) or decending (min heap) order.">Run Heap Sort</button>
             </div>
 
             <label class="UIheadings">Themes:</label>
@@ -117,8 +117,8 @@
                     </p><br>
                     <p>
                         &emsp;There are two types of heap: min heaps and max heaps. Max heaps follow the rule that all nodes are less in value than their 
-                        parents while in min heaps all nodes are greater than their parents. This follows that in a max heap the first value or root node 
-                        is the largest and the smallest in a min heap. As an array or list is used to store the heap's data rather than linked node objects, 
+                        parents while in min heaps all nodes are greater than their parents. Meaning that in a max heap the first value or root node 
+                        is the largest, and is the smallest in a min heap. As an array or list is used to store the heap's data rather than linked node objects, 
                         child elements of a particular value are found by taking the parent value's array index and applying the following formulas: 
                         child one = index * 2 (or index * 2 + 1 for zero based indexing) and child two = index * 2 + 1 (or index * 2 + 2 for zero based 
                         indexing). These index values can be seen underneath the depiction of the array at the bottom of the page. Heaps are used to implement
@@ -141,34 +141,34 @@
                     <div>
                         <ul>
                             <li><b>Min/max heap selector - </b>This changes the way data is organised (smallest value at the top for a min heap and largest for a max heap). If
-                            animation is turned on while the heap type is altered the heap building process will be animated as the heap is reorganised.</li>
+                            animation is turned on while the heap type is altered the heap building process will be animated as the heap is reorganised.</li><br>
 
                           <li><b>Append value - </b>This adds a value to the heap/array without reorganising the values to keep it as a valid heap, 
                             allowing for the heap building operation to be animated. Using the adjacent text box, a user specified value, or set of 
-                            values (comma separated), can be added.</li>
+                            values (comma separated), can be added.</li><br>
 
                           <li><b>Push value - </b>This adds a value to the heap/array then reorganises the values so it remains a valid heap, 
                             with animation turned on this will be animated for the user. Using the adjacent text box, a user specified value, or set of 
-                            values (comma separated), can be added.</li>
+                            values (comma separated), can be added.</li><br>
 
                           <li><b>Pop value - </b>This removes the top (largest for max heap, smallest for min heap) value from the heap. The last element of the heap is 
-                            promoted in its place then the values are then reorganised so it remains a valid heap, with animation turned on this will be animated for the user.</li>
+                            promoted in its place then the values are then reorganised so it remains a valid heap, with animation turned on this will be animated for the user.</li><br>
 
-                          <li><b>Clear heap - </b>This clears the heap/array of all values, allowing new or desired values to be added to the heap.</li>
+                          <li><b>Clear heap - </b>This clears the heap/array of all values, allowing new or desired values to be added to the heap.</li><br>
 
                           <li><b>Heap build - </b>Loops through each parent node starting with the last ensuring each sub tree is a valid heap until it gets to the top and
-                            all the heap is made valid. The heap build function runs in linear time (O(N)). This will be animated if animation is turned on.</li>
+                            all the heap is made valid. The heap build function runs in linear time (O(N)). This will be animated if animation is turned on.</li><br>
 
                           <li><b>Run Heap sort - </b>This uses pop() to repeatedly remove the top element from the heap then appends the value to the end of the array resulting 
                             in a sorted list of values with linearithmic or loglinear (O(N log N)) time complextity. A min heap will result in values sorted in decending order 
                             whereas a max heap will result in values sorted in ascending order. (The validity of the heap will be checked without animation prior to sorting so 
-                            running the heap build function is recommended if it is desired to see that part).</li>
+                            running the heap build function is recommended if it is desired to see that part).</li><br>
 
-                          <li><b>Background colour list - </b>Allows the alteration of the background colour.</li>
+                          <li><b>Background colour list - </b>Allows the alteration of the background colour.</li><br>
 
-                          <li><b>Foreground colour list - </b>Allows the alteration of the text and line colour.</li>
+                          <li><b>Foreground colour list - </b>Allows the alteration of the text and line colour.</li><br>
 
-                          <li><b>Animation switch - </b>Turns animations on or off (can be altered during execution to speed up tasks that do not need to be seen).</li>
+                          <li><b>Animation switch - </b>Turns animations on or off (can be altered during execution to speed up tasks that do not need to be seen).</li><br>
 
                           <li><b>Animation speed slider - </b>Alters the animation speed (can be altered during execution to speed up or slow down the animations).</li>
                         </ul>
