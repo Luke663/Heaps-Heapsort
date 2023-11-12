@@ -9,14 +9,14 @@ This project is a website for visualising the data structures heaps, how they wo
 ### Screenshots
 
 <p align="center">
-  <img src="./screenshots/1.png" width="45%">
+  <img src="./screenshots/1.PNG" width="45%">
   &nbsp; &nbsp; &nbsp; &nbsp;
-  <img src="./screenshots/2.png" width="45%">
+  <img src="./screenshots/2.PNG" width="45%">
 </p>
 <p align="center">
-  <img src="./screenshots/3.png" width="45%">
+  <img src="./screenshots/3.PNG" width="45%">
   &nbsp; &nbsp; &nbsp; &nbsp;
-  <img src="./screenshots/4.png" width="45%">
+  <img src="./screenshots/4.PNG" width="45%">
 </p>
 
 (*full size images can be found [here](./screenshots)*)
